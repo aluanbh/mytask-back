@@ -1,0 +1,374 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API Documentation for the My Tasks",
+		"description": "This is the API documentation for the My Tasks. This API is used to manage the tasks's data.",
+		"contact": {
+			"name": "André Luan de Oliveira",
+			"url": "https://github.com/aluanbh",
+			"email": "aluanbh@gmail.com"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3000/",
+			"description": "Local server"
+		}
+	],
+	"paths": {
+		"/": {
+			"get": {
+				"tags": ["Health Check"],
+				"summary": "Health Check",
+				"description": "This route is used to check if the API is running.",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"uptime": {
+											"type": "number",
+											"description": "Server uptime in seconds."
+										},
+										"message": {
+											"type": "string",
+											"description": "A message indicating that the server is running."
+										},
+										"timestamp": {
+											"type": "number",
+											"description": "Timestamp indicating when the response was generated."
+										},
+										"now": {
+											"type": "string",
+											"format": "date-time",
+											"description": "Current date and time."
+										}
+									},
+									"required": ["uptime", "message", "timestamp", "now"]
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/signup": {
+			"post": {
+				"tags": ["Auth"],
+				"summary": "Sign up",
+				"description": "This route is used to sign up.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string",
+										"description": "The name of the user."
+									},
+									"email": {
+										"type": "string",
+										"format": "email",
+										"description": "The email address of the user."
+									},
+									"password": {
+										"type": "string",
+										"description": "The password chosen by the user."
+									}
+								},
+								"required": ["name", "email", "password"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {}
+						}
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/signin": {
+			"post": {
+				"tags": ["Auth"],
+				"summary": "Sign in",
+				"description": "This route is used to sign in.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"format": "email",
+										"description": "The email address of the user."
+									},
+									"password": {
+										"type": "string",
+										"description": "The password chosen by the user."
+									}
+								},
+								"required": ["email", "password"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {}
+						}
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/tasks": {
+			"get": {
+				"tags": ["Tasks"],
+				"summary": "Get all tasks",
+				"description": "This route is used to get all tasks.",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"post": {
+				"tags": ["Tasks"],
+				"summary": "Create a new task",
+				"description": "This route is used to create a new task.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"title": {
+										"type": "string",
+										"description": "The title of the task."
+									},
+									"description": {
+										"type": "string",
+										"description": "The description of the task."
+									},
+									"tags": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										},
+										"description": "An array of tags associated with the task."
+									},
+									"userId": {
+										"type": "integer",
+										"description": "The ID of the user responsible for the task."
+									}
+								},
+								"required": ["title", "description", "userId"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {}
+						}
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/tasks/{id}": {
+			"get": {
+				"tags": ["Tasks"],
+				"summary": "Get a task by id",
+				"description": "This route is used to get a task by id.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Task id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"put": {
+				"tags": ["Tasks"],
+				"summary": "Update a task by id",
+				"description": "This route is used to update a task by id.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Task id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"title": {
+										"type": "string",
+										"description": "The title of the task."
+									},
+									"description": {
+										"type": "string",
+										"description": "The description of the task."
+									},
+									"tags": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										},
+										"description": "An array of tags associated with the task."
+									},
+									"userId": {
+										"type": "integer",
+										"description": "The ID of the user responsible for the task."
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {}
+						}
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Tasks"],
+				"summary": "Delete a task by id",
+				"description": "This route is used to delete a task by id.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Task id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"components": {
+			"schemas": {
+				"Task": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "Task id"
+						},
+						"title": {
+							"type": "string",
+							"description": "Task title"
+						},
+						"description": {
+							"type": "string",
+							"description": "Task description"
+						},
+						"status": {
+							"type": "string",
+							"description": "Task status"
+						},
+						"createdAt": {
+							"type": "string",
+							"description": "Task creation date"
+						},
+						"updatedAt": {
+							"type": "string",
+							"description": "Task update date"
+						}
+					}
+				}
+			}
+		}
+	}
+}
