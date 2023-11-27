@@ -1,0 +1,24 @@
+# Arquivos e diretórios a serem ignorados pelo Git
+
+# Dependências instaladas pelo npm
+/node_modules
+
+# Arquivos gerados pelo ambiente de desenvolvimento
+.env
+
+# Arquivos de log
+*.log
+
+# Arquivos de build
+/build
+
+# Arquivos de configuração local
+/.vscode
+/.idea
+
+# Arquivos de cache
+/.cache
+
+# Arquivos de backup
+*.bak
+*.swp
